@@ -38,7 +38,7 @@ html {
 	scroll-behavior: smooth;
 	/* fix font style issue in primereact "primereact": "^10.8.4", */
 	font-family: var(--font-family);
-	font-size: small;
+	/* font-size: small; */
 }
 
 body {
