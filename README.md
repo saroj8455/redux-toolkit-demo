@@ -39,3 +39,9 @@ Currently, two official plugins are available:
 "views": 779
 }
 _/
+
+## issue : HMR Invalidate when exporting custom hooks
+
+```sh
+After changing the file extension from .jsx to .js for the files with hooks, the error has disappeared.
+```

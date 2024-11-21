@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { postUrl } from '../common';
 
-export default function usePost() {
+// export function usePost() {
+const usePost = () => {
 	const [posts, setPost] = useState([]);
 
 	useEffect(() => {
@@ -17,5 +18,8 @@ export default function usePost() {
 		};
 		fetchPost();
 	}, []);
+
 	return { posts };
-}
+};
+
+export default usePost;

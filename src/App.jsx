@@ -122,7 +122,7 @@ function App() {
 					<Heading>Posts Info - {data.length}</Heading>
 					<hr />
 					<ul className="list-none p-0 m-0">
-						{data.map((post) => {
+						{posts.map((post) => {
 							return <Post post={post} key={post.id} />;
 						})}
 					</ul>
