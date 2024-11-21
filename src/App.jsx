@@ -14,11 +14,13 @@ import Post from './components/Post';
 import Heading from './components/Heading';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import NotificationDialog from './components/NotificationDialog';
 
 function App() {
 	const [data, setData] = useState([]); // State to store API data
 	const { posts } = usePost();
 	const [visible, setVisible] = useState(false);
+	const [notification, setNotification] = useState({});
 
 	// Fetch data from the API
 	const fetchData = async () => {
@@ -87,7 +89,7 @@ function App() {
 	};
 
 	const deletePost = async () => {
-		const postId = '1efa7b51-f3c0-6100-84dc-2431b32b810c';
+		const postId = '1efa7720-6308-6c50-82a2-959a0075f58e';
 		try {
 			// retrive post
 			const resp = await fetch(`${postUrl}/${postId}`);
@@ -99,12 +101,22 @@ function App() {
 			});
 			if (response.ok) {
 				console.log('Post deleted successfully');
+				setNotification({
+					header: `${postId} has been removed.`,
+					message: 'Post deleted successfully',
+					status: true,
+				});
 				// Fetch the updated data from the server
 				fetchData();
 			}
 		} catch (error) {
 			// alert('postId you have check not exist.');
-			setVisible(true);
+			setNotification({
+				header: `${postId} doesn't exist in DB`,
+				message: 'Unable to delete the post.',
+				status: true,
+			});
+			// setVisible(true);
 			console.log(error);
 		}
 	};
@@ -154,6 +166,9 @@ function App() {
 					>
 						<p className="m-0">Unable to find post.</p>
 					</Dialog>
+				</div>
+				<div className="card">
+					<NotificationDialog notification={notification} />
 				</div>
 			</Container>
 		</>
