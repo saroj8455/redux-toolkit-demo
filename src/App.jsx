@@ -13,10 +13,12 @@ import usePost from './hooks/usePost';
 import Post from './components/Post';
 import Heading from './components/Heading';
 import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 
 function App() {
 	const [data, setData] = useState([]); // State to store API data
 	const { posts } = usePost();
+	const [visible, setVisible] = useState(false);
 
 	// Fetch data from the API
 	const fetchData = async () => {
@@ -57,8 +59,8 @@ function App() {
 	};
 
 	const updatePost = async () => {
-		const postId = '1efa7b51-f3c0-6100-84dc-2431b32b810c';
-		const response = await fetch(`http://localhost:3000/posts/${postId}`);
+		const postId = '1efa7b59-fb87-65c0-916b-db8a17fa8e65';
+		const response = await fetch(`${postUrl}/${postId}`);
 		const existPost = await response.json();
 		console.log(existPost);
 		const postToUpdate = {
@@ -87,7 +89,12 @@ function App() {
 	const deletePost = async () => {
 		const postId = '1efa7b51-f3c0-6100-84dc-2431b32b810c';
 		try {
-			const response = await fetch(`http://localhost:3000/posts/${postId}`, {
+			// retrive post
+			const resp = await fetch(`${postUrl}/${postId}`);
+			const existPost = await resp.json();
+			console.log(existPost);
+
+			const response = await fetch(`${postUrl}/${postId}`, {
 				method: 'DELETE',
 			});
 			if (response.ok) {
@@ -96,6 +103,8 @@ function App() {
 				fetchData();
 			}
 		} catch (error) {
+			// alert('postId you have check not exist.');
+			setVisible(true);
 			console.log(error);
 		}
 	};
@@ -132,6 +141,19 @@ function App() {
 						severity="danger"
 						icon="pi pi-times"
 					/>
+				</div>
+				<div className="card">
+					<Dialog
+						header="postId doesn\'t exist in DB"
+						visible={visible}
+						style={{ width: '50vw' }}
+						onHide={() => {
+							if (!visible) return;
+							setVisible(false);
+						}}
+					>
+						<p className="m-0">Unable to find post.</p>
+					</Dialog>
 				</div>
 			</Container>
 		</>
